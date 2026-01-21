@@ -11,13 +11,13 @@ The `kubectl-wrapper` is typically installed alongside `kbenv`. While you can in
 ### Install kbenv with the wrapper
 
 ```bash
-curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/main/install.sh | bash -s -- --binaries kbenv,kubectl-wrapper
+curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/master/install.sh | bash -s -- --binaries kbenv,kubectl-wrapper
 ```
 
 ### Install all binaries (includes kubectl-wrapper)
 
 ```bash
-curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/main/install.sh | bash
+curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/master/install.sh | bash
 ```
 
 The wrapper will be installed as `kubectl` in your `~/.bin/` directory, allowing you to use `kubectl` commands naturally while benefiting from version management provided by `kbenv`.

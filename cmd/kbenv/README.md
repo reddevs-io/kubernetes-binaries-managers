@@ -43,19 +43,19 @@ The recommended installation method uses the install script which automatically 
 #### Install all binaries (helmenv, kbenv, ocenv and their wrappers)
 
 ```bash
-curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/main/install.sh | bash
+curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/master/install.sh | bash
 ```
 
 #### Install only kbenv
 
 ```bash
-curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/main/install.sh | bash -s -- --binaries kbenv
+curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/master/install.sh | bash -s -- --binaries kbenv
 ```
 
 #### Install kbenv with its wrapper
 
 ```bash
-curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/main/install.sh | bash -s -- --binaries kbenv,kubectl-wrapper
+curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/master/install.sh | bash -s -- --binaries kbenv,kubectl-wrapper
 ```
 
 The installation script will:

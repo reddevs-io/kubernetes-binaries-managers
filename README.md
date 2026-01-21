@@ -10,7 +10,7 @@ Kubernetes related binaries manager.
 To install all Kubernetes binaries managers, run:
 
 ```bash
-curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/main/install.sh | bash
+curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/master/install.sh | bash
 ```
 
 ### Selective Installation (Specific Binaries)
@@ -18,7 +18,7 @@ curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-mana
 You can install specific binaries using the `-b` or `--binaries` flag followed by a comma-separated list of binaries:
 
 ```bash
-curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/main/install.sh | bash -s -- --binaries helmenv,kbenv
+curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/master/install.sh | bash -s -- --binaries helmenv,kbenv
 ```
 
 #### Available Binaries
@@ -34,17 +34,17 @@ curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-mana
 
 Install only Helm-related tools:
 ```bash
-curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/main/install.sh | bash -s -- --binaries helmenv,helm-wrapper
+curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/master/install.sh | bash -s -- --binaries helmenv,helm-wrapper
 ```
 
 Install only kubectl-related tools:
 ```bash
-curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/main/install.sh | bash -s -- --binaries kbenv,kubectl-wrapper
+curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/master/install.sh | bash -s -- --binaries kbenv,kubectl-wrapper
 ```
 
 Install only OpenShift oc-related tools:
 ```bash
-curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/main/install.sh | bash -s -- --binaries ocenv,oc-wrapper
+curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/master/install.sh | bash -s -- --binaries ocenv,oc-wrapper
 ```
 
 ### Help
@@ -52,7 +52,7 @@ curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-mana
 To view available installation options:
 
 ```bash
-curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/main/install.sh | bash -s -- --help
+curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/master/install.sh | bash -s -- --help
 ```
 
 ### Documentation

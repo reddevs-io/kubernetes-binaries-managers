@@ -157,7 +157,7 @@ detect_arch() {
 
 # Get latest release version from GitHub API
 get_latest_version() {
-    print_info "Fetching latest release information..."
+    print_info "Fetching latest release information..." >&2
     
     local api_url="https://api.github.com/repos/${GITHUB_REPO}/releases/latest"
     local version
@@ -188,8 +188,11 @@ download_and_install() {
     local os=$2
     local arch=$3
     
+    # Strip 'v' prefix from version for filename (e.g., v1.0.5 -> 1.0.5)
+    local version_without_v="${version#v}"
+    
     # Construct download URL
-    local archive_name="${REPO_NAME}_${version}_${os}_${arch}.tar.gz"
+    local archive_name="${REPO_NAME}_${version_without_v}_${os}_${arch}.tar.gz"
     local download_url="https://github.com/${GITHUB_REPO}/releases/download/${version}/${archive_name}"
     
     print_info "Downloading ${archive_name}..."

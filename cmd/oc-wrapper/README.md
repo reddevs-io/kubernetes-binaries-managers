@@ -11,13 +11,13 @@ The `oc-wrapper` is typically installed alongside `ocenv`. While you can install
 ### Install ocenv with the wrapper
 
 ```bash
-curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/main/install.sh | bash -s -- --binaries ocenv,oc-wrapper
+curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/master/install.sh | bash -s -- --binaries ocenv,oc-wrapper
 ```
 
 ### Install all binaries (includes oc-wrapper)
 
 ```bash
-curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/main/install.sh | bash
+curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/master/install.sh | bash
 ```
 
 The wrapper will be installed as `oc` in your `~/.bin/` directory, allowing you to use `oc` commands naturally while benefiting from version management provided by `ocenv`.

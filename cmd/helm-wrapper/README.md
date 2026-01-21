@@ -12,13 +12,13 @@ The `helm-wrapper` is typically installed alongside `helmenv`. While you can ins
 ### Install helmenv with the wrapper
 
 ```bash
-curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/main/install.sh | bash -s -- --binaries helmenv,helm-wrapper
+curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/master/install.sh | bash -s -- --binaries helmenv,helm-wrapper
 ```
 
 ### Install all binaries (includes helm-wrapper)
 
 ```bash
-curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/main/install.sh | bash
+curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/master/install.sh | bash
 ```
 
 The wrapper will be installed as `helm` in your `~/.bin/` directory, allowing you to use `helm` commands naturally while benefiting from version management provided by `helmenv`.
