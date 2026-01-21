@@ -30,61 +30,37 @@ it with:
 
 ```bash
 $ which helm
-/opt/brew/bin/helm
+/home/user/.bin/helm
 ```
 
-### Homebrew
+### Using the installation script
 
-This is the recomended way, since it provides upgrades. It should work in Mac,
-Linux and Windows with WSL.
+The recommended installation method uses the install script which automatically downloads and installs the binaries.
+
+#### Install all binaries (helmenv, kbenv, ocenv and their wrappers)
 
 ```bash
-# Just the first time, activate the repository
-brew tap little-angry-clouds/homebrew-my-brews
-# To install
-brew install helmenv
-# To upgrade
-brew upgrade helmenv
+curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/main/install.sh | bash
 ```
 
-You should add your `homebrew` binary path to your PATH:
+#### Install only helmenv
 
 ```bash
-echo 'export PATH="$(brew --prefix)/bin/:$PATH"' >> ~/.bashrc
-# Or
-echo 'export PATH="$(brew --prefix)/bin/:$PATH"' >> ~/.zshrc
+curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/main/install.sh | bash -s -- --binaries helmenv
 ```
 
-For Windows you should do the weird stuff that it needs to to set an environmental variable.
-
-### Manually
-
-1. Add `~/.bin` to your `$PATH` and create it if doesn't exist
+#### Install helmenv with its wrapper
 
 ```bash
-echo 'export PATH="$HOME/.bin:$PATH"' >> ~/.bashrc
-# Or
-echo 'export PATH="$HOME/.bin:$PATH"' >> ~/.zshrc
-
-mkdir -p ~/.bin
+curl -sSfL https://raw.githubusercontent.com/reddevs-io/kubernetes-binaries-managers/main/install.sh | bash -s -- --binaries helmenv,helm-wrapper
 ```
 
-For Windows you should do the weird stuff that it needs to to set an environmental variable.
+The installation script will:
+- Download the appropriate binaries for your OS and architecture
+- Install them to `~/.bin/` (or a custom directory with `--install-path`)
+- Add `~/.bin` to your PATH in your shell configuration file if needed
 
-2. Download the binaries and put them on your path
-
-Go to [the releases
-page](https://github.com/little-angry-clouds/kubernetes-binaries-managers/releases)
-and download the version you want. For example:
-
-```bash
-wget https://github.com/little-angry-clouds/kubernetes-binaries-managers/releases/download/v1.0.0/kubernetes-binaries-managers_1.0.0_linux_amd64.tar.gz
-tar -xzf kubernetes-binaries-managers_1.0.0_linux_amd64.tar.gz
-mv helm-linux-amd64/helmenv ~/.bin/helmenv
-mv helm-linux-amd64/helm-wrapper ~/.bin/helm
-```
-
-And that's it!
+For more installation options, see the [main project README](https://github.com/reddevs-io/kubernetes-binaries-managers).
 
 ## Usage
 
