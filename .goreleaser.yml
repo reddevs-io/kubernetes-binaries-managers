@@ -1,4 +1,4 @@
----
+version: 2
 builds:
   - env:
       - CGO_ENABLED=0
@@ -8,8 +8,10 @@ builds:
       - windows
     goarch:
       - amd64
-      - arm
       - arm64
+    ignore:
+      - goos: windows
+        goarch: arm
     main: cmd/helm-wrapper/main.go
     id: helm-wrapper
     binary: "helm-{{ .Os }}-{{ .Arch }}/helm-wrapper"
@@ -27,8 +29,10 @@ builds:
       - -X github.com/reddevs-io/kubernetes-binaries-managers/internal/cmd.Date={{.Date}}
     goarch:
       - amd64
-      - arm
       - arm64
+    ignore:
+      - goos: windows
+        goarch: arm
     main: cmd/helmenv/main.go
     id: helmenv
     binary: "helm-{{ .Os }}-{{ .Arch }}/helmenv"
@@ -46,8 +50,10 @@ builds:
       - -X github.com/reddevs-io/kubernetes-binaries-managers/internal/cmd.Date={{.Date}}
     goarch:
       - amd64
-      - arm
       - arm64
+    ignore:
+      - goos: windows
+        goarch: arm
     main: cmd/kbenv/main.go
     id: kbenv
     binary: "kubectl-{{ .Os }}-{{ .Arch }}/kbenv"
@@ -59,8 +65,10 @@ builds:
       - windows
     goarch:
       - amd64
-      - arm
       - arm64
+    ignore:
+      - goos: windows
+        goarch: arm
     main: cmd/kubectl-wrapper/main.go
     id: kubectl-wrapper
     binary: "kubectl-{{ .Os }}-{{ .Arch }}/kubectl-wrapper"
@@ -72,8 +80,10 @@ builds:
       - windows
     goarch:
       - amd64
-      - arm
       - arm64
+    ignore:
+      - goos: windows
+        goarch: arm
     main: cmd/oc-wrapper/main.go
     id: oc-wrapper
     binary: "oc-{{ .Os }}-{{ .Arch }}/oc-wrapper"
@@ -90,15 +100,17 @@ builds:
       - -X github.com/reddevs-io/kubernetes-binaries-managers/internal/cmd.Date={{.Date}}
     goarch:
       - amd64
-      - arm
       - arm64
+    ignore:
+      - goos: windows
+        goarch: arm
     main: cmd/ocenv/main.go
     id: ocenv
     binary: "oc-{{ .Os }}-{{ .Arch }}/ocenv"
 checksum:
   name_template: "checksums.txt"
 snapshot:
-  name_template: "{{ .Tag }}-next"
+  version_template: "{{ .Tag }}-next"
 changelog:
   sort: asc
   filters:

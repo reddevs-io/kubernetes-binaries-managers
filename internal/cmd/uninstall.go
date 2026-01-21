@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"runtime"
 
-	. "github.com/little-angry-clouds/kubernetes-binaries-managers/internal/helpers"
+	. "github.com/reddevs-io/kubernetes-binaries-managers/internal/helpers"
 	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 )

@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	. "github.com/little-angry-clouds/kubernetes-binaries-managers/internal/binary"
-	. "github.com/little-angry-clouds/kubernetes-binaries-managers/internal/helpers"
+	. "github.com/reddevs-io/kubernetes-binaries-managers/internal/binary"
+	. "github.com/reddevs-io/kubernetes-binaries-managers/internal/helpers"
 	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 )
