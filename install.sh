@@ -15,6 +15,12 @@ GITHUB_REPO="${REPO_OWNER}/${REPO_NAME}"
 # Installation directory
 INSTALL_DIR="/usr/local/bin"
 
+# Available binaries
+ALL_BINARIES="helmenv helm-wrapper kbenv kubectl-wrapper ocenv oc-wrapper"
+
+# Selected binaries (empty means install all)
+SELECTED_BINARIES=""
+
 # Helper functions
 print_info() {
     echo -e "${GREEN}[INFO]${NC} $1"
@@ -26,6 +32,86 @@ print_warning() {
 
 print_error() {
     echo -e "${RED}[ERROR]${NC} $1"
+}
+
+# Display usage information
+show_help() {
+    cat << EOF
+Kubernetes Binaries Managers Installer
+
+Usage: $0 [OPTIONS]
+
+Options:
+  -b, --binaries <list>    Comma-separated list of binaries to install
+                           Available binaries:
+                             - helmenv
+                             - helm-wrapper
+                             - kbenv
+                             - kubectl-wrapper
+                             - ocenv
+                             - oc-wrapper
+                           Example: --binaries helmenv,kbenv
+                           
+  -h, --help               Display this help message
+
+If no binaries are specified, all binaries will be installed.
+
+Examples:
+  $0                                    # Install all binaries
+  $0 --binaries helmenv,helm-wrapper   # Install only helmenv and helm-wrapper
+  $0 -b kbenv,kubectl-wrapper          # Install only kbenv and kubectl-wrapper
+EOF
+    exit 0
+}
+
+# Validate that a binary name is in the available list
+is_valid_binary() {
+    local binary=$1
+    for valid in $ALL_BINARIES; do
+        if [ "$binary" = "$valid" ]; then
+            return 0
+        fi
+    done
+    return 1
+}
+
+# Parse command-line arguments
+parse_arguments() {
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            -h|--help)
+                show_help
+                ;;
+            -b|--binaries)
+                if [ -z "$2" ] || [ "${2:0:1}" = "-" ]; then
+                    print_error "Option -b/--binaries requires a comma-separated list of binaries"
+                    echo ""
+                    show_help
+                fi
+                SELECTED_BINARIES="$2"
+                shift 2
+                ;;
+            *)
+                print_error "Unknown option: $1"
+                echo ""
+                show_help
+                ;;
+        esac
+    done
+    
+    # Validate selected binaries if any were specified
+    if [ -n "$SELECTED_BINARIES" ]; then
+        # Convert comma-separated list to space-separated
+        local binaries_to_validate=$(echo "$SELECTED_BINARIES" | tr ',' ' ')
+        for binary in $binaries_to_validate; do
+            if ! is_valid_binary "$binary"; then
+                print_error "Invalid binary name: $binary"
+                echo ""
+                print_error "Available binaries: $ALL_BINARIES"
+                exit 1
+            fi
+        done
+    fi
 }
 
 # Detect OS
@@ -146,17 +232,45 @@ download_and_install() {
     
     # Install binaries from all subdirectories
     local installed_count=0
+    local installed_list=""
+    
+    # Determine which binaries to install
+    local binaries_to_install
+    if [ -z "$SELECTED_BINARIES" ]; then
+        binaries_to_install="$ALL_BINARIES"
+    else
+        # Convert comma-separated to space-separated
+        binaries_to_install=$(echo "$SELECTED_BINARIES" | tr ',' ' ')
+    fi
+    
     for dir in "$tmp_dir"/*-"${os}"-"${arch}"; do
         if [ -d "$dir" ]; then
             for binary in "$dir"/*; do
                 if [ -f "$binary" ] && [ -x "$binary" ]; then
                     local binary_name=$(basename "$binary")
-                    print_info "Installing ${binary_name} to ${INSTALL_DIR}..."
-                    if $USE_SUDO cp "$binary" "${INSTALL_DIR}/${binary_name}"; then
-                        $USE_SUDO chmod +x "${INSTALL_DIR}/${binary_name}"
-                        ((installed_count++))
-                    else
-                        print_error "Failed to install ${binary_name}"
+                    
+                    # Check if this binary should be installed
+                    local should_install=0
+                    for selected in $binaries_to_install; do
+                        if [ "$binary_name" = "$selected" ]; then
+                            should_install=1
+                            break
+                        fi
+                    done
+                    
+                    if [ $should_install -eq 1 ]; then
+                        print_info "Installing ${binary_name} to ${INSTALL_DIR}..."
+                        if $USE_SUDO cp "$binary" "${INSTALL_DIR}/${binary_name}"; then
+                            $USE_SUDO chmod +x "${INSTALL_DIR}/${binary_name}"
+                            ((installed_count++))
+                            if [ -z "$installed_list" ]; then
+                                installed_list="$binary_name"
+                            else
+                                installed_list="$installed_list $binary_name"
+                            fi
+                        else
+                            print_error "Failed to install ${binary_name}"
+                        fi
                     fi
                 fi
             done
@@ -169,10 +283,16 @@ download_and_install() {
     fi
     
     print_info "Successfully installed $installed_count binary/binaries"
+    
+    # Return the list of installed binaries
+    echo "$installed_list"
 }
 
 # Main installation flow
 main() {
+    # Parse command-line arguments
+    parse_arguments "$@"
+    
     echo "=========================================="
     echo "Kubernetes Binaries Managers Installer"
     echo "=========================================="
@@ -192,7 +312,7 @@ main() {
     echo ""
     
     # Download and install
-    download_and_install "$VERSION" "$OS" "$ARCH"
+    installed_binaries=$(download_and_install "$VERSION" "$OS" "$ARCH")
     
     echo ""
     echo "=========================================="
@@ -200,15 +320,49 @@ main() {
     echo "=========================================="
     echo ""
     print_info "Installed binaries:"
-    print_info "  - helmenv: Helm version manager"
-    print_info "  - helm-wrapper: Helm wrapper"
-    print_info "  - kbenv: kubectl version manager"
-    print_info "  - kubectl-wrapper: kubectl wrapper"
-    print_info "  - ocenv: oc (OpenShift CLI) version manager"
-    print_info "  - oc-wrapper: oc wrapper"
+    
+    # Display information about each installed binary
+    for binary in $installed_binaries; do
+        case "$binary" in
+            helmenv)
+                print_info "  - helmenv: Helm version manager"
+                ;;
+            helm-wrapper)
+                print_info "  - helm-wrapper: Helm wrapper"
+                ;;
+            kbenv)
+                print_info "  - kbenv: kubectl version manager"
+                ;;
+            kubectl-wrapper)
+                print_info "  - kubectl-wrapper: kubectl wrapper"
+                ;;
+            ocenv)
+                print_info "  - ocenv: oc (OpenShift CLI) version manager"
+                ;;
+            oc-wrapper)
+                print_info "  - oc-wrapper: oc wrapper"
+                ;;
+        esac
+    done
+    
     echo ""
-    print_info "Run 'helmenv --help', 'kbenv --help', or 'ocenv --help' to get started"
+    
+    # Display helpful usage message based on which binaries were installed
+    local help_msg=""
+    for binary in $installed_binaries; do
+        if [ "$binary" = "helmenv" ] || [ "$binary" = "kbenv" ] || [ "$binary" = "ocenv" ]; then
+            if [ -z "$help_msg" ]; then
+                help_msg="$binary --help"
+            else
+                help_msg="$help_msg, $binary --help"
+            fi
+        fi
+    done
+    
+    if [ -n "$help_msg" ]; then
+        print_info "Run '$help_msg' to get started"
+    fi
 }
 
 # Run main function
-main
+main "$@"
